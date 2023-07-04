@@ -17,9 +17,7 @@
         </div>
     </div>
     <a-drawer v-model:visible="visible" class="custom-class" style="color: red" title="danh mục" placement="left">
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <TheMenu/>
     </a-drawer>
     <a-drawer v-model:visible="visibleUser" class="custom-class" style="color: red" title="admin" placement="right">
         <p>Some contents...</p>
@@ -29,8 +27,12 @@
 </template>
 
 <script>
+import TheMenu from './TheMenu.vue';
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
+    components: {
+        TheMenu
+    },
     setup() {
         const visible = ref(false);
         const visibleUser = ref(false);
