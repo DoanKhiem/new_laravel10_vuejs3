@@ -1,6 +1,6 @@
 <template>
     <div>
-        day la danh sach user
+        day la danh sach setting
     </div>
 </template>
 
@@ -9,7 +9,7 @@ import { useStore } from '../../../stores/use-menu';
     export default {
         setup() {
             const store = useStore();
-            store.onSelectKeys(['admin-users'])
+            store.onSelectKeys(['admin-settings'])
         }
     }
 </script>
