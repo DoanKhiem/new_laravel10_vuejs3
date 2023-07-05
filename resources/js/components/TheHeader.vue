@@ -5,7 +5,7 @@
                 <span @click="showDrawer">X</span>
             </div>
             <div class="col-10 col-sm-9 d-flex align-items-center justify-content-center justify-content-sm-start">
-                <img src="../../../public/assets/logo.jpg" alt="Logo" height="50">
+                <img src="../../../public/assets/logo.png" alt="Logo" height="50">
                 <span class="d-none d-sm-flex">QUẢN TRỊ</span>
             </div>
             <div class="col-sm-3 d-none d-sm-flex align-items-center justify-content-sm-end">
