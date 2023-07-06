@@ -2,7 +2,9 @@
     <div class="container-fuild">
         <div class="row p-2" style="background-color: #0c713d;">
             <div class="col-1 d-flex d-sm-none align-items-center justify-content-center">
-                <span @click="showDrawer">X</span>
+                <span @click="showDrawer">
+                    <menu-outlined :style="{ color: 'white', fontSize: '25px', marginLeft: '10px'}"/>
+                </span>
             </div>
             <div class="col-10 col-sm-9 d-flex align-items-center justify-content-center justify-content-sm-start">
                 <img src="../../../public/assets/logo.png" alt="Logo" height="50">
@@ -12,7 +14,9 @@
                 <span>ADMIN</span>
             </div>
             <div class="col-1 d-flex d-sm-none align-items-center justify-content-center">
-                <span @click="showDrawerUser">X</span>
+                <span @click="showDrawerUser">
+                    <user-outlined :style="{ color: 'white', fontSize: '25px', marginRight: '10px'}"/>
+                </span>
             </div>
         </div>
     </div>
@@ -29,9 +33,12 @@
 <script>
 import TheMenu from './TheMenu.vue';
 import { defineComponent, ref } from 'vue';
+import { MenuOutlined, UserOutlined } from '@ant-design/icons-vue';
 export default defineComponent({
     components: {
-        TheMenu
+        TheMenu,
+        MenuOutlined,
+        UserOutlined,
     },
     setup() {
         const visible = ref(false);
