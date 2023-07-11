@@ -25,4 +25,19 @@ class UserController extends Controller
         ->get();
         return response()->json($users);
     }
+
+    public function create() {
+        $user_status = \DB::table('user_status')->select(
+            'id as value',
+            'name as label'
+        )->get();
+        $departments = \DB::table('departments')->select(
+            'id as value',
+            'name as label'
+        )->get();
+        return response()->json([
+            'user_status' => $user_status,
+            'departments' => $departments,
+        ]);
+    }
 }

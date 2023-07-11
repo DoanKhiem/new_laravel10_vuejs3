@@ -27,8 +27,8 @@
                         </label>
                     </div>
                     <div class="col-12 col-sm-9">
-                        <a-select show-search placeholder="Lựa chọn tình trạng" style="width: 100%" :options="[]"
-                            :filter-option="[]"></a-select>
+                        <a-select show-search placeholder="Lựa chọn tình trạng" style="width: 100%" :options="user_status"
+                            :filter-option="filterOption" allow-clear></a-select>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -72,8 +72,8 @@
                         </label>
                     </div>
                     <div class="col-12 col-sm-9">
-                        <a-select show-search placeholder="Lựa chọn phòng ban" style="width: 100%" :options="[]"
-                            :filter-option="[]"></a-select>
+                        <a-select show-search placeholder="Lựa chọn phòng ban" style="width: 100%" :options="user_status"
+                            :filter-option="filterOption" allow-clear></a-select>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -103,7 +103,7 @@
         <div class="row">
             <div class="col-12 d-grid d-sm-flex justify-content-sm-end mx-auto">
                 <a-button class="me-0 me-sm-2 mb-3 mb-sm-0">
-                    <router-link :to="{ name: 'admin-users'}">
+                    <router-link :to="{ name: 'admin-users' }">
                         <span>Hủy</span>
                     </router-link>
                 </a-button>
@@ -127,6 +127,31 @@ export default defineComponent({
     setup() {
         const store = useStore();
         store.onSelectKeys(['admin-users'])
+
+        const user_status = ref([])
+        const departments = ref([])
+        const getUsersCreate = () => {
+            axios.get('http://127.0.0.1:8000/api/users/create')
+                .then(function (response) {
+                    // xử trí khi thành công
+                    user_status.value = response.data.user_status
+                    departments.value = response.data.departments
+                })
+                .catch(function (error) {
+                    // xử trí khi bị lỗi
+                    console.log(error);
+                })
+                .finally(function () {
+                    // luôn luôn được thực thi
+                });
+        }
+        getUsersCreate();
+        const filterOption = (input, option) => {
+            return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+        };
+        return {
+            user_status, departments, filterOption,
+        }
     }
 
 })
