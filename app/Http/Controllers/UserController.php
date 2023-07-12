@@ -40,4 +40,32 @@ class UserController extends Controller
             'departments' => $departments,
         ]);
     }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'user_name' => 'required|unique:users,user_name',
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'password_confirmation' => 'required|confirmed',
+            'department_id' => 'required',
+            'status_id' => 'required', 
+        ],[
+            'user_name.required' => 'Nhập tài khoản',
+            'user_name.unique' => 'Tên tài khoản đã tồn tại',
+            'name.required' => 'Nhập tên',
+            'email.required' => 'Nhập email',
+            'email.email' => 'Email không hợp lệ',
+            'password.required' => 'Nhập mật khẩu',
+            'password_confirmation.required' => 'Nhập mật khẩu xác nhận',
+            'password_confirmation.confirmed' => 'Nhập mật khẩu xác nhận',
+            'department_id.required' => 'Nhập phòng ban',
+            'status_id.required' => 'Nhập tình trạng',
+        ]);
+        // Validate and store the blog post...
+ 
+        // $post = /** ... */
+ 
+        return $request;
+    }
 }
