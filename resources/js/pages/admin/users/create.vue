@@ -159,12 +159,15 @@
 import { useStore } from '../../../stores/use-menu';
 import { UserOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { defineComponent, reactive, ref, toRefs } from 'vue'
+import { message } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
 export default defineComponent({
     components: {
         UserOutlined,
         PlusOutlined
     },
     setup() {
+        const router = useRouter()
         const store = useStore();
         store.onSelectKeys(['admin-users'])
 
@@ -202,6 +205,10 @@ export default defineComponent({
                 .then(function (response) {
                     // xử trí khi thành công
                     console.log(response);
+                    if (response) {
+                        message.success('Tao moi thanh cong');
+                        router.push({ name: 'admin-users' })
+                    }
                     // user_status.value = response.data.user_status
                     // departments.value = response.data.departments
                 })
