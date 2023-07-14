@@ -3,7 +3,7 @@
         <div class="row mb-3">
             <div class="col-12 d-flex justify-content-end">
                 <a-button type="primary">
-                    <router-link :to="{ name: 'admin-user-create'}">
+                    <router-link :to="{ name: 'admin-user-create' }">
                         <plus-outlined />
                     </router-link>
                 </a-button>
@@ -20,6 +20,14 @@
                             <span v-if="record.status_id == 1" class="text-primary">{{ record.name_status }}</span>
                             <span v-if="record.status_id == 2" class="text-danger">{{ record.name_status }}</span>
                         </template>
+
+                        <template v-if="column.key === 'action'">
+                            <a-button type="primary">
+                                <router-link :to="{ name: 'admin-user-edit', params: { id: record.id } }">
+                                    <EditOutlined />
+                                </router-link>
+                            </a-button>
+                        </template>
                     </template>
                 </a-table>
             </div>
@@ -30,10 +38,10 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { useStore } from '../../../stores/use-menu';
-import { PlusOutlined } from '@ant-design/icons-vue';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons-vue';
 export default defineComponent({
     components: {
-        PlusOutlined,
+        PlusOutlined, EditOutlined,
     },
     setup() {
         const store = useStore();

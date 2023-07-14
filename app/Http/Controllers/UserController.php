@@ -40,6 +40,22 @@ class UserController extends Controller
             'departments' => $departments,
         ]);
     }
+    public function edit($id) {
+        $user = User::find($id);
+        $user_status = \DB::table('user_status')->select(
+            'id as value',
+            'name as label'
+        )->get();
+        $departments = \DB::table('departments')->select(
+            'id as value',
+            'name as label'
+        )->get();
+        return response()->json([
+            'user' => $user,
+            'user_status' => $user_status,
+            'departments' => $departments,
+        ]);
+    }
     public function store(Request $request)
     {
         // $validated = $request->validate([
