@@ -1,8 +1,17 @@
 <template>
     <a-card title="Danh sách user" style="width: 100%">
+        <div class="row mb-3">
+            <div class="col-12 d-flex justify-content-end">
+                <a-button type="primary">
+                    <router-link :to="{ name: 'admin-user-create' }">
+                        <plus-outlined />
+                    </router-link>
+                </a-button>
+            </div>
+        </div>
         <div class="row">
             <div class="col">
-                <a-table :dataSource="users" :columns="columns">
+                <a-table :dataSource="users" :columns="columns" :scroll="{ x: 576 }">
                     <template #bodyCell="{ column, index, record }">
                         <template v-if="column.key === 'index'">
                             <span>{{ index + 1 }}</span>
@@ -10,6 +19,14 @@
                         <template v-if="column.key === 'status_id'">
                             <span v-if="record.status_id == 1" class="text-primary">{{ record.name_status }}</span>
                             <span v-if="record.status_id == 2" class="text-danger">{{ record.name_status }}</span>
+                        </template>
+
+                        <template v-if="column.key === 'action'">
+                            <a-button type="primary">
+                                <router-link :to="{ name: 'admin-user-edit', params: { id: record.id } }">
+                                    <EditOutlined />
+                                </router-link>
+                            </a-button>
                         </template>
                     </template>
                 </a-table>
@@ -21,7 +38,11 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { useStore } from '../../../stores/use-menu';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons-vue';
 export default defineComponent({
+    components: {
+        PlusOutlined, EditOutlined,
+    },
     setup() {
         const store = useStore();
         store.onSelectKeys(['admin-users'])
@@ -46,9 +67,24 @@ export default defineComponent({
                 key: 'name',
             },
             {
+                title: 'Phòng ban',
+                dataIndex: 'name_department',
+                key: 'name_department',
+            },
+            {
+                title: 'Vai trò',
+                dataIndex: 'roles',
+                key: 'roles',
+            },
+            {
                 title: 'Trạng thái',
                 dataIndex: 'status_id',
                 key: 'status_id',
+            },
+            {
+                title: 'Công cụ',
+                key: 'action',
+                fixed: 'right'
             },
         ]
         const getUsers = () => {

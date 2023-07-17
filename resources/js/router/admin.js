@@ -9,6 +9,16 @@ const admin = [
                 component: () => import("../pages/admin/users/index.vue")
             },
             {
+                path: "user/create",
+                name: "admin-user-create",
+                component: () => import("../pages/admin/users/create.vue")
+            },
+            {
+                path: "user/edit/:id",
+                name: "admin-user-edit",
+                component: () => import("../pages/admin/users/edit.vue")
+            },
+            {
                 path: "roles",
                 name: "admin-roles",
                 component: () => import("../pages/admin/roles/index.vue")
