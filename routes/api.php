@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\InvoiceController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,3 +24,5 @@ Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/create', [UserController::class, 'create']);
 Route::get('/users/edit/{id}', [UserController::class, 'edit']);
 Route::post('/users/create', [UserController::class, 'store']);
+
+Route::get('/invoices', [InvoiceController::class, 'index']);
