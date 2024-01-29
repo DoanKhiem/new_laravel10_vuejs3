@@ -1,15 +1,21 @@
 <script setup>
-    import { onMounted, ref} from "vue";
-    let invoices = ref([]);
+import {onMounted, ref} from "vue";
 
-    onMounted(async () => {
-        getInvoices();
-    });
+let invoices = ref([]);
+let searchInvoice = ref([])
+onMounted(async () => {
+    getInvoices();
+});
 
-    const getInvoices = async () => {
-        let reponse =  await axios.get('/api/invoices');
-        invoices.value = reponse.data.invoices;
-    };
+const getInvoices = async () => {
+    let reponse = await axios.get('/api/invoices');
+    invoices.value = reponse.data.invoices;
+};
+const search = async () => {
+    let response = await axios.get('/api/search_invoice?s=' + searchInvoice.value)
+    console.log('respone', response.data.invoices)
+    invoices.value = response.data.invoices;
+}
 </script>
 
 <template>
@@ -56,7 +62,8 @@
                     </div>
                     <div class="relative">
                         <i class="table--search--input--icon fas fa-search "></i>
-                        <input class="table--search--input" type="text" placeholder="Search invoice">
+                        <input class="table--search--input" type="text"
+                               v-model="searchInvoice" @keyup="search()" placeholder="Search invoice">
                     </div>
                 </div>
 
@@ -71,15 +78,15 @@
 
                 <!-- item 1 -->
                 <div class="table--items" v-for="item in invoices" :key="item.id" v-if="invoices.length">
-                    <a href="#" class="table--items--transactionId">{{item.id}}</a>
+                    <a href="#" class="table--items--transactionId">{{ item.id }}</a>
                     <p>{{ item.date }}</p>
                     <p># {{ item.number }}</p>
                     <p v-if="item.customer">
-                        {{item.customer.firstname}}
+                        {{ item.customer.firstname }}
                     </p>
                     <p v-else></p>
-                    <p>{{ item.due_date}}</p>
-                    <p>$ {{ item.total}}</p>
+                    <p>{{ item.due_date }}</p>
+                    <p>$ {{ item.total }}</p>
                 </div>
                 <div class="table--items" v-else>
                     <p>Invoice not found</p>
