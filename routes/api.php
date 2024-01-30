@@ -27,3 +27,4 @@ Route::post('/users/create', [UserController::class, 'store']);
 
 Route::get('/invoices', [InvoiceController::class, 'index']);
 Route::get('/search_invoice', [InvoiceController::class, 'search_invoice']);
+Route::get('/create_invoice', [InvoiceController::class, 'create_invoice']);
