@@ -1,5 +1,48 @@
 <script setup>
+import {onMounted, ref} from "vue";
+let form = ref({})
+let allCustomer = ref([])
+let customer_id = ref([])
+let item = ref([])
+let listCart = ref([])
+const showModal = ref(false);
+const hiddenModal = ref(true)
+let listProduct = ref([])
+onMounted(async () => {
+    indexForm()
+    getAllCustomer()
+    getProducts()
+})
+const indexForm = async () => {
+    let response = await axios.get('/api/create_invoice')
+    console.log(response.data)
+    form.value = response.data
+}
+const getAllCustomer = async () => {
+    let response = await axios.get('/api/customers')
 
+    allCustomer.value = response.data.customers
+}
+const addCart = async (item) =>{
+    const itemCart = {
+        id: item.id,
+        item_code: item.item_code,
+        description: item.description,
+        unit_price: item.unit_price,
+        quantity: item.quantity,
+    }
+    listCart.value.push(itemCart)
+}
+const openModel = async () => {
+    showModal.value = !showModal.value
+}
+const closeModel = async () => {
+    showModal.value = false
+}
+const getProducts = async () => {
+    let response = await axios.get('/api/products')
+    console.log('response', response.data)
+}
 </script>
 
 <template>
@@ -18,21 +61,22 @@
             <div class="card__content--header">
                 <div>
                     <p class="my-1">Customer</p>
-                    <select name="" id="" class="input">
-                        <option value="">cust 1</option>
+                    <select name="" id="" class="input" v-model="customer_id">
+                        <option value="" disabled>Select customer</option>
+                        <option v-for="customer in allCustomer" :key="customer.id" value="">{{ customer.firstname }}</option>
                     </select>
                 </div>
                 <div>
                     <p class="my-1">Date</p>
-                    <input id="date" placeholder="dd-mm-yyyy" type="date" class="input"> <!---->
+                    <input id="date" v-model="form.date" placeholder="dd-mm-yyyy" type="date" class="input">
                     <p class="my-1">Due Date</p>
-                    <input id="due_date" type="date" class="input">
+                    <input id="due_date" v-model="form.due_date" type="date" class="input">
                 </div>
                 <div>
                     <p class="my-1">Numero</p>
-                    <input type="text" class="input">
+                    <input type="text" class="input" v-model="form.number">
                     <p class="my-1">Reference(Optional)</p>
-                    <input type="text" class="input">
+                    <input type="text" class="input" v-model="form.reference">
                 </div>
             </div>
             <br><br>
@@ -47,23 +91,24 @@
                 </div>
 
                 <!-- item 1 -->
-                <div class="table--items2">
-                    <p>#093654 vjxhchkvhxc vkxckvjkxc jkvjxckvjkx </p>
+                <div class="table--items2" v-for="(itemCart, i) in listCart" :key="itemCart.id">
+                    <p>#{{itemCart.item_code}} {{itemCart.description}}</p>
                     <p>
-                        <input type="text" class="input">
+                        <input type="text" class="input" v-model="itemCart.unit_price">
                     </p>
                     <p>
-                        <input type="text" class="input">
+                        <input type="text" class="input" v-model="itemCart.quantity">
                     </p>
-                    <p>
-                        $ 10000
+                    <p v-if="itemCart.quantity">
+                        $ {{(itemCart.quantity)*(itemCart.unit_price)}}
                     </p>
+                    <p v-else></p>
                     <p style="color: red; font-size: 24px;cursor: pointer;">
                         &times;
                     </p>
                 </div>
                 <div style="padding: 10px 30px !important;">
-                    <button class="btn btn-sm btn__open--modal">Add New Line</button>
+                    <button @click="openModel()" class="btn btn-sm btn__open--modal">Add New Line</button>
                 </div>
             </div>
 
@@ -103,9 +148,9 @@
 
     </div>
     <!--==================== add modal items ====================-->
-    <div class="modal main__modal ">
+    <div class="modal main__modal " :class="{ show: showModal }">
         <div class="modal__content">
-            <span class="modal__close btn__close--modal">×</span>
+            <span class="modal__close btn__close--modal" @click="closeModel()">×</span>
             <h3 class="modal__title">Add Item</h3>
             <hr>
             <br>
@@ -118,7 +163,7 @@
             <br>
             <hr>
             <div class="model__footer">
-                <button class="btn btn-light mr-2 btn__close--modal">
+                <button @click="closeModel()" class="btn btn-light mr-2 btn__close--modal">
                     Cancel
                 </button>
                 <button class="btn btn-light btn__close--modal ">Save</button>
