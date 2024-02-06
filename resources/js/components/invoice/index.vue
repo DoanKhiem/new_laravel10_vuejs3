@@ -23,12 +23,14 @@ const newInvoice = async () => {
     console.log('form', form.data)
     router.push('/invoice/new')
 }
+const onShow = async (id) => {
+    router.push('/invoice/show/' + id)
+}
 </script>
 
 <template>
     <div class="container">
         <div class="invoices">
-
             <div class="card__header">
                 <div>
                     <h2 class="invoice__title">Invoices</h2>
@@ -85,7 +87,7 @@ const newInvoice = async () => {
 
                 <!-- item 1 -->
                 <div class="table--items" v-for="item in invoices" :key="item.id" v-if="invoices.length">
-                    <a href="#" class="table--items--transactionId">{{ item.id }}</a>
+                    <a href="#" @click="onShow(item.id)" class="table--items--transactionId">#{{ item.id }}</a>
                     <p>{{ item.date }}</p>
                     <p># {{ item.number }}</p>
                     <p v-if="item.customer">

@@ -3,7 +3,7 @@ import admin from "./admin";
 import InvoiceIndex from '../components/invoice/index.vue';
 import NotFound from '../components/NotFound.vue';
 import invoiceNew from '../components/invoice/new.vue'
-
+import invoiceShow from '../components/invoice/show.vue'
 const routeInvoice = [
     {
         path: '/',
@@ -16,6 +16,11 @@ const routeInvoice = [
     {
         path: '/:pathMatch(.*)*',
         component: NotFound,
+    },
+    {
+        path: '/invoice/show/:id',
+        component: invoiceShow,
+        props: true
     }
 
 ]
